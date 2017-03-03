@@ -3,7 +3,7 @@
         return 'etwas ging kaputt';
     }
     if (damage[damage.length-1] === 0) {
-        return 'ziel n&auml;chstes Mal auf das Horn';
+        return 'ziel nächstes Mal auf das Horn';
     }
     if (damage[0] >= defender.maxHP) {
         return 'garantierter OHKO';
@@ -76,7 +76,7 @@
     }
     if (defender.item === 'Leftovers') {
         eot += Math.floor(defender.maxHP / 16);
-        eotText.push('&Uuml;berreste-Recovery');
+        eotText.push('Überreste-Recovery');
     } else if (defender.item === 'Black Sludge') {
         if (defender.type1 === 'Poison' || defender.type2 === 'Poison') {
             eot += Math.floor(defender.maxHP / 16);
@@ -97,7 +97,7 @@
             // No effect
         } else if (attacker.ability === "Liquid Ooze") {
             eot -= gen >= 2 ? Math.floor(attacker.maxHP / 8) : Math.floor(attacker.maxHP / 16);
-            eotText.push("Kloakenso&szlig;e-Schaden");
+            eotText.push("Kloakensoße-Schaden");
         } else {
             eot += gen >= 2 ? Math.floor(attacker.maxHP / 8) : Math.floor(attacker.maxHP / 16);
             eotText.push("Egelsamen-Recovery");
@@ -143,7 +143,7 @@
     // multi-hit moves have too many possibilities for brute-forcing to work, so reduce it to an approximate distribution
     var qualifier = '';
     if (hits > 1) {
-        qualifier = 'ungef&auml;hr ';
+        qualifier = 'ungefähr ';
         damage = squashMultihit(damage, hits);
     }
 
@@ -170,11 +170,11 @@
         if (predictTotal(damage[0], eot, i, toxicCounter, defender.maxHP) >= defender.maxHP - hazards) {
             return 'garantierter ' + i + 'HKO' + afterText;
         } else if (predictTotal(damage[damage.length-1], eot, i, toxicCounter, defender.maxHP) >= defender.maxHP - hazards) {
-            return 'm&ouml;glicher ' + i + 'HKO' + afterText;
+            return 'möglicher ' + i + 'HKO' + afterText;
         }
     }
 
-    return 'm&ouml;glicherweise die schlimmste Attacke je';
+    return 'möglicherweise die schlimmste Attacke je';
 }
 
 function getKOChance(damage, hp, eot, hits, maxHP, toxicCounter) {
