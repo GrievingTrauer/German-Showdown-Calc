@@ -1,12 +1,12 @@
 ﻿function getKOChanceText(damage, attacker, defender, field, hits, isBadDreams) {
     if (isNaN(damage[0])) {
-        return 'something broke; please tell Austin or Marty';
+        return 'etwas ging kaputt';
     }
     if (damage[damage.length-1] === 0) {
-        return 'aim for the horn next time';
+        return 'ziel n&auml;chstes Mal auf das Horn';
     }
     if (damage[0] >= defender.maxHP) {
-        return 'guaranteed OHKO';
+        return 'garantierter OHKO';
     }
 
     var hazards = 0;
@@ -147,9 +147,9 @@
     var c = getKOChance(damage, defender.maxHP - hazards, 0, 1, defender.maxHP, toxicCounter);
     var afterText = hazardText.length > 0 ? ' after ' + serializeText(hazardText) : '';
     if (c === 1) {
-        return 'guaranteed OHKO' + afterText;
+        return 'garantierter OHKO' + afterText;
     } else if (c > 0) {
-        return qualifier + Math.round(c * 1000) / 10 + '% chance to OHKO' + afterText;
+        return qualifier + Math.round(c * 1000) / 10 + '% Chance zum OHKOen' + afterText;
     }
 
     afterText = hazardText.length > 0 || eotText.length > 0 ? ' after ' + serializeText(hazardText.concat(eotText)) : '';
@@ -157,21 +157,21 @@
     for (i = 2; i <= 4; i++) {
         c = getKOChance(damage, defender.maxHP - hazards, eot, i, defender.maxHP, toxicCounter);
         if (c === 1) {
-            return 'guaranteed ' + i + 'HKO' + afterText;
+            return 'garantierter ' + i + 'HKO' + afterText;
         } else if (c > 0) {
-            return qualifier + Math.round(c * 1000) / 10 + '% chance to ' + i + 'HKO' + afterText;
+            return qualifier + Math.round(c * 1000) / 10 + '% Chance zum ' + i + 'HKOen' + afterText;
         }
     }
 
     for (i = 5; i <= 9; i++) {
         if (predictTotal(damage[0], eot, i, toxicCounter, defender.maxHP) >= defender.maxHP - hazards) {
-            return 'guaranteed ' + i + 'HKO' + afterText;
+            return 'garantierter ' + i + 'HKO' + afterText;
         } else if (predictTotal(damage[damage.length-1], eot, i, toxicCounter, defender.maxHP) >= defender.maxHP - hazards) {
-            return 'possible ' + i + 'HKO' + afterText;
+            return 'm&ouml;glicher ' + i + 'HKO' + afterText;
         }
     }
 
-    return 'possibly the worst move ever';
+    return 'm&ouml;glicherweise die schlimmste Attacke je';
 }
 
 function getKOChance(damage, hp, eot, hits, maxHP, toxicCounter) {
