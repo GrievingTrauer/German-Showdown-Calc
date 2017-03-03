@@ -64,8 +64,8 @@ function calculate() {
     }
     bestResult.prop("checked", true);
     bestResult.change();
-    $("#resultHeaderL").text(p1.name + "'s Moves (select one to show detailed results)");
-    $("#resultHeaderR").text(p2.name + "'s Moves (select one to show detailed results)");
+    $("#resultHeaderL").text(p1.name + "s Attacken (w&auml;hl eine aus um detaillierte Resultate zu sehen)");
+    $("#resultHeaderR").text(p2.name + "s Attacken (w&auml;hl eine aus um detaillierte Resultate zu sehen)");
 }
 
 $(".result-move").change(function() {
