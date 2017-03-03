@@ -1,9 +1,9 @@
 function replace_text_wps($text){
     $replace = array(
         // 'WORD TO REPLACE' => 'REPLACE WORD WITH THIS'
-        'wordpress' => '<a href="#">wordpress</a>',
-        'excerpt' => '<a href="#">excerpt</a>',
-        'function' => '<a href="#">function</a>'
+        'Earthquake' => 'Erdbeben',
+        'Ice Shard' => 'Eissplitter',
+        'Giga Drain' => 'Gigasauger'
     );
     $text = str_replace(array_keys($replace), $replace, $text);
     return $text;
