@@ -14,23 +14,23 @@
     if (field.isSR && defender.ability !== 'Magic Guard') {
         var effectiveness = typeChart['Rock'][defender.type1] * (defender.type2 ? typeChart['Rock'][defender.type2] : 1);
         hazards += Math.floor(effectiveness * defender.maxHP / 8);
-        hazardText.push('Stealth Rock');
+        hazardText.push('Tarnsteine');
     }
     if ([defender.type1, defender.type2].indexOf('Flying') === -1 &&
             ['Magic Guard', 'Levitate'].indexOf(defender.ability) === -1 && defender.item !== 'Air Balloon') {
         if (field.spikes === 1) {
             hazards += Math.floor(defender.maxHP / 8);
             if (gen === 2) {
-                hazardText.push('Spikes');
+                hazardText.push('Stachler');
             } else {
-                hazardText.push('1 layer of Spikes');
+                hazardText.push('1 Stachler-Schicht');
             }
         } else if (field.spikes === 2) {
             hazards += Math.floor(defender.maxHP / 6);
-            hazardText.push('2 layers of Spikes');
+            hazardText.push('2 Stachler-Schichten');
         } else if (field.spikes === 3) {
             hazards += Math.floor(defender.maxHP / 4);
-            hazardText.push('3 layers of Spikes');
+            hazardText.push('3 Stachler-Schichten');
         }
     }
     if (isNaN(hazards)) {
@@ -40,17 +40,20 @@
     var eot = 0;
     var eotText = [];
     if (field.weather === 'Sun' || field.weather === "Harsh Sunshine") {
-        if (defender.ability === 'Dry Skin' || defender.ability === 'Solar Power') {
+        if (defender.ability === 'Dry Skin') {
             eot -= Math.floor(defender.maxHP / 8);
-            eotText.push(defender.ability + ' damage');
+            eotText.push('Trockenheit-Schaden');
+        } else if (defender.ability === 'Solar Power') {
+            eot -= Math.floor(defender.maxHP / 8);
+            eotText.push('Solarkraft-Schaden');
         }
     } else if (field.weather === 'Rain' || field.weather === "Heavy Rain") {
         if (defender.ability === 'Dry Skin') {
             eot += Math.floor(defender.maxHP / 8);
-            eotText.push('Dry Skin recovery');
+            eotText.push('Trockenheit-Recovery');
         } else if (defender.ability === 'Rain Dish') {
             eot += Math.floor(defender.maxHP / 16);
-            eotText.push('Rain Dish recovery');
+            eotText.push('Regengenuss-Recovery');
         }
     } else if (field.weather === 'Sand') {
         if (['Rock', 'Ground', 'Steel'].indexOf(defender.type1) === -1 &&
@@ -58,35 +61,35 @@
                 ['Magic Guard', 'Overcoat', 'Sand Force', 'Sand Rush', 'Sand Veil'].indexOf(defender.ability) === -1 &&
                 defender.item !== 'Safety Goggles') {
             eot -= Math.floor(defender.maxHP / 16);
-            eotText.push('sandstorm damage');
+            eotText.push('Sandsturm-Schaden');
         }
     } else if (field.weather === 'Hail') {
         if (defender.ability === 'Ice Body') {
             eot += Math.floor(defender.maxHP / 16);
-            eotText.push('Ice Body recovery');
+            eotText.push('Eishaut-Recovery');
         } else if (defender.type1 !== 'Ice' && defender.type2 !== 'Ice' &&
                 ['Magic Guard', 'Overcoat', 'Snow Cloak'].indexOf(defender.ability) === -1 &&
                 defender.item !== 'Safety Goggles') {
             eot -= Math.floor(defender.maxHP / 16);
-            eotText.push('hail damage');
+            eotText.push('Hagel-Schaden');
         }
     }
     if (defender.item === 'Leftovers') {
         eot += Math.floor(defender.maxHP / 16);
-        eotText.push('Leftovers recovery');
+        eotText.push('&Uuml;berreste-Recovery');
     } else if (defender.item === 'Black Sludge') {
         if (defender.type1 === 'Poison' || defender.type2 === 'Poison') {
             eot += Math.floor(defender.maxHP / 16);
-            eotText.push('Black Sludge recovery');
+            eotText.push('Giftschleim-Recovery');
         } else if (defender.ability !== 'Magic Guard' && defender.ability !== 'Klutz') {
             eot -= Math.floor(defender.maxHP / 8);
-            eotText.push('Black Sludge damage');
+            eotText.push('Giftschleim-Schaden');
         }
     }
     if (field.isDefenderSeeded) {
         if (defender.ability !== 'Magic Guard') {
             eot -= gen >= 2 ? Math.floor(defender.maxHP / 8) : Math.floor(defender.maxHP / 16); // 1/16 in gen 1, 1/8 in gen 2 onwards
-            eotText.push('Leech Seed damage');
+            eotText.push('Egelsamen-Schaden');
         }
     }
     if (field.isAttackerSeeded) {
@@ -94,65 +97,65 @@
             // No effect
         } else if (attacker.ability === "Liquid Ooze") {
             eot -= gen >= 2 ? Math.floor(attacker.maxHP / 8) : Math.floor(attacker.maxHP / 16);
-            eotText.push("Liquid Ooze damage");
+            eotText.push("Kloakenso&szlig;e-Schaden");
         } else {
             eot += gen >= 2 ? Math.floor(attacker.maxHP / 8) : Math.floor(attacker.maxHP / 16);
-            eotText.push("Leech Seed recovery");
+            eotText.push("Egelsamen-Recovery");
         }
     }
     if (field.terrain === "Grassy") {
         if (field.isGravity || (defender.type1 !== "Flying" && defender.type2 !== "Flying" &&
                 defender.item !== "Air Balloon" && defender.ability !== "Levitate")) {
             eot += Math.floor(defender.maxHP / 16);
-            eotText.push('Grassy Terrain recovery');
+            eotText.push('Grasfeld-Recovery');
         }
     }
     var toxicCounter = 0;
     if (defender.status === 'Poisoned') {
         if (defender.ability === 'Poison Heal') {
             eot += Math.floor(defender.maxHP / 8);
-            eotText.push('Poison Heal');
+            eotText.push('Aufheber');
         } else if (defender.ability !== 'Magic Guard') {
             eot -= Math.floor(defender.maxHP / 8);
-            eotText.push('poison damage');
+            eotText.push('Gift-Schaden');
         }
     } else if (defender.status === 'Badly Poisoned') {
         if (defender.ability === 'Poison Heal') {
             eot += Math.floor(defender.maxHP / 8);
-            eotText.push('Poison Heal');
+            eotText.push('Aufheber');
         } else if (defender.ability !== 'Magic Guard') {
-            eotText.push('toxic damage');
+            eotText.push('Toxin-Schaden');
             toxicCounter = defender.toxicCounter;
         }
     } else if (defender.status === 'Burned') {
         if (defender.ability === 'Heatproof') {
             eot -= gen > 6 ? Math.floor(defender.maxHP / 32) : Math.floor(defender.maxHP / 16);
-            eotText.push('reduced burn damage');
+            eotText.push('reduzierter Verbrennungs-Schaden');
         } else if (defender.ability !== 'Magic Guard') {
             eot -= gen > 6 ? Math.floor(defender.maxHP / 16) : Math.floor(defender.maxHP / 8);
-            eotText.push('burn damage');
+            eotText.push('Verbrennungs-Schaden');
         }
     } else if ((defender.status === 'Asleep' || defender.ability === 'Comatose') && isBadDreams && defender.ability !== 'Magic Guard') {
         eot -= Math.floor(defender.maxHP / 8);
-        eotText.push('Bad Dreams');
+        eotText.push('Alptraum');
     }
 
     // multi-hit moves have too many possibilities for brute-forcing to work, so reduce it to an approximate distribution
     var qualifier = '';
     if (hits > 1) {
-        qualifier = 'approx. ';
+        qualifier = 'ungef&auml;hr ';
         damage = squashMultihit(damage, hits);
     }
 
     var c = getKOChance(damage, defender.maxHP - hazards, 0, 1, defender.maxHP, toxicCounter);
-    var afterText = hazardText.length > 0 ? ' after ' + serializeText(hazardText) : '';
+    var afterText = hazardText.length > 0 ? ' nach ' + serializeText(hazardText) : '';
     if (c === 1) {
         return 'garantierter OHKO' + afterText;
     } else if (c > 0) {
         return qualifier + Math.round(c * 1000) / 10 + '% Chance zum OHKOen' + afterText;
     }
 
-    afterText = hazardText.length > 0 || eotText.length > 0 ? ' after ' + serializeText(hazardText.concat(eotText)) : '';
+    afterText = hazardText.length > 0 || eotText.length > 0 ? ' nach ' + serializeText(hazardText.concat(eotText)) : '';
     var i;
     for (i = 2; i <= 4; i++) {
         c = getKOChance(damage, defender.maxHP - hazards, eot, i, defender.maxHP, toxicCounter);
